@@ -1,0 +1,34 @@
+-- Script SQL
+
+-- Criação do banco de dados
+CREATE DATABASE FreelanceDB;
+
+-- Usar o banco
+USE FreelanceDB;
+
+-- Tabela de Usuários
+CREATE TABLE Users (
+    UserId INT IDENTITY(1,1) PRIMARY KEY,
+    UserName NVARCHAR(100) NOT NULL UNIQUE,     -- Nome de login único
+    EmailId NVARCHAR(150) NOT NULL UNIQUE,      -- E-mail único
+    FullName NVARCHAR(150) NOT NULL,
+    Password NVARCHAR(100) NOT NULL,
+    CreatedDate DATETIME DEFAULT GETDATE()
+);
+
+-- Tabela de Projetos
+CREATE TABLE Projects (
+    ProjectId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL,
+    Title NVARCHAR(200) NOT NULL UNIQUE,  -- Impede projetos com títulos duplicados
+    Description NVARCHAR(MAX) NOT NULL,
+    Budget DECIMAL(10,2) NOT NULL,
+    Deadline DATETIME NOT NULL,
+    SkillsRequired NVARCHAR(500),
+    Status NVARCHAR(50),
+    CreatedDate DATETIME DEFAULT GETDATE(),
+
+    CONSTRAINT FK_Projects_Users FOREIGN KEY (UserId)
+        REFERENCES Users (UserId)
+        ON DELETE CASCADE
+);
