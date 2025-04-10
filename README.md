@@ -46,19 +46,33 @@ freelancer-app/
 1. **Clone o repositório**:
    ```bash
    git clone https://github.com/GustavoTT/freelancer-app.git
+2. **Abra o projeto 'FREELANCER-APP no Visual Studio Code**
+3. **Os comandos abaixo devem ser executados no terminal CMD do Visual Studio Code**
 
 ### Backend (.NET + SQLite)
 
+> 💡 Certifique-se de ter o .NET 9 SDK instalado e a CLI do EF Core.
+- https://dotnet.microsoft.com/pt-br/download # .NET 9.0 SDK
+```bash
+cd api
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer -v 9.0.0
+```
 ```bash
 cd api
 dotnet restore
+dotnet tool install --global dotnet-ef
 dotnet ef database update   # Cria o banco de dados automaticamente
 dotnet run
 ```
-> 💡 Certifique-se de ter o .NET 8 SDK instalado e a CLI do EF Core.
+Acesse em: http://localhost:5104/swagger/index.html
 
 ### Frontend (Angular)
 
+> 💡 Certifique-se de ter o Node.Js instalado e o Angular.
+- https://nodejs.org/en # Node.Js
+```bash
+npm install -g @angular/cli # Instala o Angular
+```
 ```bash
 cd client
 npm install
