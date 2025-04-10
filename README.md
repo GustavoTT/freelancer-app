@@ -43,6 +43,10 @@ freelancer-app/
 
 ## 📥 Instalação
 
+1. **Clone o repositório**:
+   ```bash
+   git clone https://github.com/GustavoTT/freelancer-app.git
+
 ### Backend (.NET + SQLite)
 
 ```bash
@@ -56,7 +60,7 @@ dotnet run
 ### Frontend (Angular)
 
 ```bash
-cd src
+cd client
 npm install
 ng serve
 ```
@@ -79,3 +83,7 @@ O acesso às rotas de projetos é protegido por um AuthGuard, que verifica se h�
     - POST -> /api/Users            # Cadastro de usuário
     - POST -> /api/Users/login      # Autenticação de usuário
 - Porém ainda existem, comentados dentro da aplicação, endpoints para excluir um usuário, ver todos os usuários e ver todos os projetos.
+
+## 🧑‍🦰 Contato
+- GitHub: GustavoTT
+- Linkedin: https://www.linkedin.com/in/gustavotagli/
