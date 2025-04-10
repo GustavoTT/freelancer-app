@@ -1,0 +1,30 @@
+<div class="p-20 bg-gray-100 min-h-screen">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Meus Projetos</h2>
+    <div class="flex gap-4">
+      <button (click)="createProject()" class="bg-lime-600 text-white px-4 py-2 rounded hover:bg-lime-700">
+        Novo Projeto
+      </button>
+      <button (click)="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+        Logout
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="projects.length === 0" class="text-gray-600">Nenhum projeto encontrado.</div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let project of projects" class="bg-white rounded shadow p-4">
+      <h3 class="text-xl font-semibold">{{ project.title }}</h3>
+      <p class="text-gray-700 mt-1">{{ project.description }}</p>
+      <p class="mt-2"><strong>Orçamento:</strong> R$ {{ project.budget }}</p>
+      <p><strong>Prazo:</strong> {{ project.deadline | date:'short' }}</p>
+      <p><strong>Habilidades:</strong> {{ project.skillsRequired }}</p>
+  
+      <div class="flex gap-2 mt-4">
+        <button (click)="editProject(project.projectId)" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Editar</button>
+        <button (click)="deleteProject(project.projectId)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Deletar</button>
+      </div>
+    </div>
+  </div>  
+</div>

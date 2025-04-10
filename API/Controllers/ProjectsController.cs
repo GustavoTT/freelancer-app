@@ -20,7 +20,7 @@ namespace API.Controllers
         }
         
         [Authorize]
-        [HttpGet("MyProjects")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<ProjectDetailsDTO>>> GetMyProjects()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -57,6 +57,32 @@ namespace API.Controllers
         }
 
         [Authorize]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProjectReadDTO>> GetProject(int id)
+        {
+            var project = await _context.Projects.FindAsync(id);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            var dto = new ProjectReadDTO
+            {
+                ProjectId = project.ProjectId,
+                Title = project.Title,
+                Description = project.Description,
+                Budget = project.Budget,
+                Deadline = project.Deadline,
+                SkillsRequired = project.SkillsRequired,
+                Status = project.Status,
+                UserId = project.UserId
+            };
+
+            return Ok(dto);
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateProject(ProjectCreateDTO dto)
         {
@@ -80,7 +106,7 @@ namespace API.Controllers
             await _context.Projects.AddAsync(project);
             var result = await _context.SaveChangesAsync();
 
-            return result > 0 ? Ok("Projeto criado com sucesso!") : BadRequest("Erro ao criar projeto.");
+            return result > 0 ? Ok(new { message = "Projeto criado com sucesso"}) : BadRequest(new { message = "Erro ao criar projeto"});
         }
 
         [Authorize]
@@ -105,7 +131,7 @@ namespace API.Controllers
             _context.Projects.Update(project);
             await _context.SaveChangesAsync();
 
-            return Ok("Projeto atualizado com sucesso.");
+            return Ok(new { message = "Atualizado com sucesso" });
         }
 
         [Authorize]
@@ -123,7 +149,7 @@ namespace API.Controllers
             _context.Projects.Remove(project);
             await _context.SaveChangesAsync();
 
-            return Ok("Projeto removido com sucesso.");
+            return Ok(new {message = "Projeto removido com sucesso."});
         }
 
 

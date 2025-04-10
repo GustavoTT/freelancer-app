@@ -11,7 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 var key = Encoding.ASCII.GetBytes("P9>(0qc[LPZ)Nn?zbiaCbeZKyZsdz~g(|%(U9FFU_*AJ<jx;!gwQp(?5%:S");
 builder.Services.AddScoped<AuthService>();
 
-
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options=>options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
@@ -21,6 +20,15 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        builder => builder
+            .WithOrigins("http://localhost:4200") // frontend Angular
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
 
 // Test With SWAGGER
 builder.Services.AddSwaggerGen(c =>
@@ -78,6 +86,8 @@ builder.Services.AddAuthentication(options =>
 });
 
 var app = builder.Build();
+
+app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,0 +1,28 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="flex w-full max-w-4xl shadow-lg rounded-lg overflow-hidden bg-white">
+
+    <div class="w-1/2 bg-lime-600 text-white p-10 flex flex-col justify-center items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" height="100px" viewBox="0 -960 960 960" width="100px" fill="#FFFFFF"><path d="M140-120q-24 0-42-18t-18-42v-480q0-24 18-42t42-18h180v-100q0-24 18-42t42-18h200q24 0 42 18t18 42v100h180q24 0 42 18t18 42v480q0 24-18 42t-42 18H140Zm240-600h200v-100H380v100Z"/></svg>
+      <h2 class="text-3xl font-bold mb-2">FreelaConnect</h2>
+      <p class="text-lg text-lime-100 text-center">Conectando talentos e oportunidades</p>
+    </div>
+
+    <div class="w-1/2 p-8">
+      <h2 class="text-2xl font-bold mb-6 text-center">Já tem uma conta?</h2>
+      <form (submit)="login(); $event.preventDefault()">
+        <div class="mb-4">
+          <label class="block mb-1">Usuário</label>
+          <input type="text" [(ngModel)]="userName" name="userName" class="w-full px-4 py-2 border rounded" required>
+        </div>
+        <div class="mb-4">
+          <label class="block mb-1">Senha</label>
+          <input type="password" [(ngModel)]="password" name="password" class="w-full px-4 py-2 border rounded" required>
+        </div>
+        <div *ngIf="errorMessage" class="text-red-500 text-sm mb-4">{{ errorMessage }}</div>
+        <button type="submit" class="w-full bg-lime-600 text-white py-2 rounded hover:bg-lime-700">Entrar</button>
+        <button type="button" class="w-full mt-4 bg-gray-600 text-white py-2 rounded hover:bg-gray-700" (click)="router.navigate(['/register'])">Criar Conta</button>
+
+      </form>
+    </div>
+  </div>
+  

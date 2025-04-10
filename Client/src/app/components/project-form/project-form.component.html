@@ -1,0 +1,42 @@
+<div class="p-20 bg-gray-100 min-h-screen">
+  <div class="max-w-xl mx-auto mt-8 bg-white p-6 rounded shadow">
+      <h2 class="text-2xl font-bold mb-4">{{ isEditMode ? 'Editar Projeto' : 'Novo Projeto' }}</h2>
+    
+      <form (submit)="saveProject(); $event.preventDefault()">
+        <div class="mb-4">
+          <label class="block font-semibold">Título</label>
+          <input [(ngModel)]="project.title" name="title" required class="w-full border rounded p-2">
+        </div>
+    
+        <div class="mb-4">
+          <label class="block font-semibold">Descrição</label>
+          <textarea [(ngModel)]="project.description" name="description" rows="4" class="w-full border rounded p-2"></textarea>
+        </div>
+    
+        <div class="mb-4">
+          <label class="block font-semibold">Orçamento</label>
+          <input type="number" [(ngModel)]="project.budget" name="budget" class="w-full border rounded p-2">
+        </div>
+    
+        <div class="mb-4">
+          <label class="block font-semibold">Prazo</label>
+          <input type="datetime-local" [(ngModel)]="project.deadline" name="deadline" class="w-full border rounded p-2">
+        </div>
+    
+        <div class="mb-6">
+          <label class="block font-semibold">Habilidades Requeridas</label>
+          <input [(ngModel)]="project.skillsRequired" name="skillsRequired" class="w-full border rounded p-2">
+        </div>
+    
+        <div class="flex gap-4">
+          <button type="submit" class="bg-lime-600 text-white px-4 py-2 rounded hover:bg-lime-700">
+            {{ isEditMode ? 'Salvar Alterações' : 'Criar Projeto' }}
+          </button>
+          <button type="button" (click)="cancel()" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
+            Cancelar
+          </button>
+        </div>
+      </form>
+  </div>
+</div>
+  
