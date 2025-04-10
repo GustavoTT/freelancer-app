@@ -43,10 +43,15 @@ export class RegisterComponent {
     this.authService.register(newUser).subscribe({
       next: () => {
         this.successMessage = 'Cadastro realizado com sucesso!';
+        this.errorMessage = '';
         setTimeout(() => this.router.navigate(['/login']), 2000);
       },
-      error: () => {
-        this.errorMessage = 'Erro ao cadastrar. Tente novamente.';
+      error: (err) => {
+        if (err.status === 409 && err.error === 'Esse nome de usuário já está em uso.') {
+          this.errorMessage = 'Nome de usuário já está em uso.';
+        } else {
+          this.errorMessage = 'Erro ao cadastrar. Tente novamente.';
+        }
       }
     });
   }

@@ -2,7 +2,6 @@ using API.Data;
 using API.DTO;
 using API.Models;
 using API.Services;
-using BCrypt.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -60,7 +59,7 @@ namespace API.Controllers
             return Ok(new { token });
         }
 
-        // Get All Users
+        // Get All Users and Delete User
         // [HttpGet]
         // public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         // {

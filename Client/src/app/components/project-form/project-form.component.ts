@@ -39,21 +39,27 @@ export class ProjectFormComponent implements OnInit {
       this.projectService.updateProject(+this.projectId!, {
         ...this.project,
         status: true
-      }).subscribe(() => {
-        this.toastr.success('Projeto atualizado com sucesso!');
-        this.router.navigate(['/projects']);
-      }, () => {
-        this.toastr.error('Erro ao atualizar o projeto.');
+      }).subscribe({
+        next: () => {
+          this.toastr.success('Projeto atualizado com sucesso!');
+          this.router.navigate(['/projects']);
+        },
+        error: () => {
+          this.toastr.error('Erro ao atualizar o projeto.');
+        }
       });
     } else {
-      this.projectService.createProject(this.project).subscribe(() => {
-        this.toastr.success('Projeto criado com sucesso!');
-        this.router.navigate(['/projects']);
-      }, () => {
-        this.toastr.error('Erro ao criar o projeto.');
+      this.projectService.createProject(this.project).subscribe({
+        next: () => {
+          this.toastr.success('Projeto criado com sucesso!');
+          this.router.navigate(['/projects']);
+        },
+        error: () => {
+          this.toastr.error('Erro ao criar o projeto.');
+        }
       });
     }
-  }
+  }  
 
   cancel() {
     this.router.navigate(['/projects']);
