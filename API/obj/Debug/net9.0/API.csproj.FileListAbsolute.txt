@@ -155,3 +155,4 @@ C:\Users\guata\OneDrive\Área de Trabalho\SerApi\API\bin\Debug\net9.0\Microsoft.
 C:\Users\guata\OneDrive\Área de Trabalho\SerApi\API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\guata\OneDrive\Área de Trabalho\SerApi\API\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\guata\OneDrive\Área de Trabalho\SerApi\API\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\guata\OneDrive\Área de Trabalho\SerApi\API\obj\Debug\net9.0\API.sourcelink.json

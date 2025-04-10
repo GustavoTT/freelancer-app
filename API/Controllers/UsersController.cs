@@ -20,37 +20,6 @@ namespace API.Controllers
             _authService = authService;
         }
         
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
-        {
-            var users = await _context.Users
-                .Include(u => u.Projects)
-                .AsNoTracking()
-                .ToListAsync();
-
-            var userDtos = users.Select(u => new UserDTO
-            {
-                UserId = u.UserId,
-                UserName = u.UserName,
-                Email = u.Email,
-                FullName = u.FullName,
-                CreatedDate = u.CreatedDate,
-                Projects = u.Projects.Select(p => new ProjectDTO
-                {
-                    ProjectId = p.ProjectId,
-                    Title = p.Title,
-                    Description = p.Description,
-                    Budget = p.Budget,
-                    Deadline = p.Deadline,
-                    SkillsRequired = p.SkillsRequired,
-                    Status = p.Status,
-                    CreatedDate = p.CreatedDate
-                }).ToList()
-            });
-
-            return Ok(userDtos);
-        }
-
         [HttpPost]
         public async Task<IActionResult> CreateUser(UserCreateDTO dto)
         {
@@ -91,17 +60,38 @@ namespace API.Controllers
             return Ok(new { token });
         }
 
-        // [HttpGet("{id:int}")]
-        // public async Task<ActionResult<User>> GetUser(int id)
+        // Get All Users
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         // {
-        //     var user = await _context.Users.FindAsync(id);
+        //     var users = await _context.Users
+        //         .Include(u => u.Projects)
+        //         .AsNoTracking()
+        //         .ToListAsync();
 
-        //     if(user == null)
-        //         return NotFound();
-            
-        //     return Ok(user);
+        //     var userDtos = users.Select(u => new UserDTO
+        //     {
+        //         UserId = u.UserId,
+        //         UserName = u.UserName,
+        //         Email = u.Email,
+        //         FullName = u.FullName,
+        //         CreatedDate = u.CreatedDate,
+        //         Projects = u.Projects.Select(p => new ProjectDTO
+        //         {
+        //             ProjectId = p.ProjectId,
+        //             Title = p.Title,
+        //             Description = p.Description,
+        //             Budget = p.Budget,
+        //             Deadline = p.Deadline,
+        //             SkillsRequired = p.SkillsRequired,
+        //             Status = p.Status,
+        //             CreatedDate = p.CreatedDate
+        //         }).ToList()
+        //     });
+
+        //     return Ok(userDtos);
         // }
-        
+
         // [HttpDelete("{id:int}")]
         // public async Task<IActionResult> Delete(int id)
         // {
@@ -118,25 +108,5 @@ namespace API.Controllers
 
         //     return BadRequest("Não foi possivel deletar o usuario");
         // } 
-
-        // [HttpPut("{id:int}")]
-        // public async Task<IActionResult> EditUser(int id, User user)
-        // {
-        //     var userFromDb = await _context.Users.FindAsync(id);
-
-        //     if(userFromDb == null)
-        //         return BadRequest("Usuário não encontrado");
-
-        //     userFromDb.UserName = user.UserName;
-        //     userFromDb.Email = user.Email;
-        //     userFromDb.FullName = user.FullName;
-
-        //     var result = await _context.SaveChangesAsync();
-
-        //     if(result > 0)
-        //         return Ok("Usuário atualizado");
-
-        //     return BadRequest("Não foi possível atualizar o usuário"); 
-        // }
     }
 }

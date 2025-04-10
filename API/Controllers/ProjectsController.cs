@@ -20,7 +20,7 @@ namespace API.Controllers
         }
         
         [Authorize]
-        [HttpGet("me/projects")]
+        [HttpGet("MyProjects")]
         public async Task<ActionResult<IEnumerable<ProjectDetailsDTO>>> GetMyProjects()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -31,37 +31,6 @@ namespace API.Controllers
             var projects = await _context.Projects
                 .Include(p => p.User)
                 .Where(p => p.UserId == UserId)
-                .AsNoTracking()
-                .ToListAsync();
-
-            var projectDtos = projects.Select(p => new ProjectDetailsDTO
-            {
-                ProjectId = p.ProjectId,
-                UserId = p.UserId,
-                Title = p.Title,
-                Description = p.Description,
-                Budget = p.Budget,
-                Deadline = p.Deadline,
-                SkillsRequired = p.SkillsRequired,
-                Status = p.Status,
-                CreatedDate = p.CreatedDate,
-                User = p.User == null ? null : new SimpleUserDTO
-                {
-                    UserId = p.User.UserId,
-                    UserName = p.User.UserName,
-                    FullName = p.User.FullName
-                }
-            });
-
-            return Ok(projectDtos);
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProjectDetailsDTO>>> GetProjects()
-        {
-            var projects = await _context.Projects
-                .Include(p => p.User)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -113,5 +82,81 @@ namespace API.Controllers
 
             return result > 0 ? Ok("Projeto criado com sucesso!") : BadRequest("Erro ao criar projeto.");
         }
+
+        [Authorize]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProject(int id, [FromBody] ProjectUpdateDTO dto)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdClaim, out int userId))
+                return Unauthorized("Id não encontrado no token!");
+
+            var project = await _context.Projects.FirstOrDefaultAsync(p => p.ProjectId == id && p.UserId == userId);
+            if (project == null)
+                return NotFound("Projeto não encontrado!");
+
+            project.Title = dto.Title;
+            project.Description = dto.Description;
+            project.Budget = dto.Budget;
+            project.Deadline = dto.Deadline;
+            project.SkillsRequired = dto.SkillsRequired;
+            project.Status = dto.Status;
+
+            _context.Projects.Update(project);
+            await _context.SaveChangesAsync();
+
+            return Ok("Projeto atualizado com sucesso.");
+        }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProject(int id)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdClaim, out int userId))
+                return Unauthorized("Id não encontrado no token!");
+
+            var project = await _context.Projects.FirstOrDefaultAsync(p => p.ProjectId == id && p.UserId == userId);
+            if (project == null)
+                return NotFound("Projeto não encontrado!");
+
+            _context.Projects.Remove(project);
+            await _context.SaveChangesAsync();
+
+            return Ok("Projeto removido com sucesso.");
+        }
+
+
+        // Get All Projects
+        // [Authorize]
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<ProjectDetailsDTO>>> GetProjects()
+        // {
+        //     var projects = await _context.Projects
+        //         .Include(p => p.User)
+        //         .AsNoTracking()
+        //         .ToListAsync();
+
+        //     var projectDtos = projects.Select(p => new ProjectDetailsDTO
+        //     {
+        //         ProjectId = p.ProjectId,
+        //         UserId = p.UserId,
+        //         Title = p.Title,
+        //         Description = p.Description,
+        //         Budget = p.Budget,
+        //         Deadline = p.Deadline,
+        //         SkillsRequired = p.SkillsRequired,
+        //         Status = p.Status,
+        //         CreatedDate = p.CreatedDate,
+        //         User = p.User == null ? null : new SimpleUserDTO
+        //         {
+        //             UserId = p.User.UserId,
+        //             UserName = p.User.UserName,
+        //             FullName = p.User.FullName
+        //         }
+        //     });
+
+        //     return Ok(projectDtos);
+        // }
     }
 }
